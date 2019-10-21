@@ -5,7 +5,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, minimal-ui">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css">
-        <link rel="stylesheet" href="lib/semantic.min.css">
         <link rel="stylesheet" href="lib/calendar.min.css">
         <link rel="stylesheet" href="style.css">
         <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
@@ -27,29 +26,36 @@
         <script src="lib/semantic.min.js"></script>
         <script src="lib/calendar.min.js"></script>
         <script src="script.js"></script>
+        <script src="signin.js"></script>
     </head>
-    <body>
-        <nav class="ui tabular menu">
-            <div class="header item desktop">Trowse Cemetery</div>
-            <a href="index.html" class="active item">Map</a>
-            <a href="data.html" class="item">Data</a>
-            <div class="right menu">
-                <div class="item desktop">
-                    <div class="ui icon input">
-                        <input type="text" placeholder="Search for anything..." id="search">
-                        <i class="search link icon"></i>
+    <body class="pageForm">
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <h2 class="ui blue header">Sign into Trowse Cemetery</h2>
+                <form class="ui large form">
+                    <div class="ui stacked segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="text" name="email" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <a class="ui fluid large submit blue button">Sign in</a>
                     </div>
-                </div>
-                <div class="item" id="accountArea">
-                    <a href="signin.html" class="ui primary button">Sign in</a>
+                    <div class="ui error message"></div>
+                </form>
+                <p>Not signing in?</p>
+                <div class="ui two buttons">
+                    <a href="index.html" class="ui fluid button">Cancel</a>
+                    <a href="signup.html" class="ui fluid button">Sign up</a>
                 </div>
             </div>
-        </nav>
-        <main>
-            <div class="ui active inverted dimmer" id="loadingScreen">
-                <div class="ui text loader">Loading data...</div>
-            </div>
-            <svg viewbox="0 0 800 1000" id="map"></svg>
-        </main>
+        </div>
     </body>
 </html>

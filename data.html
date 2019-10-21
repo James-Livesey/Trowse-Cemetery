@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css">
         <link rel="stylesheet" href="lib/semantic.min.css">
         <link rel="stylesheet" href="lib/calendar.min.css">
-        <link rel="stylesheet" href="style.css">
+                <link rel="stylesheet" href="style.css">
         <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
         <script>
             var firebaseConfig = {
@@ -31,8 +31,8 @@
     <body>
         <nav class="ui tabular menu">
             <div class="header item desktop">Trowse Cemetery</div>
-            <a href="index.html" class="active item">Map</a>
-            <a href="data.html" class="item">Data</a>
+            <a href="index.html" class="item">Map</a>
+            <a href="data.html" class="active item">Data</a>
             <div class="right menu">
                 <div class="item desktop">
                     <div class="ui icon input">
@@ -45,11 +45,41 @@
                 </div>
             </div>
         </nav>
-        <main>
+        <main class="ui container">
             <div class="ui active inverted dimmer" id="loadingScreen">
                 <div class="ui text loader">Loading data...</div>
             </div>
-            <svg viewbox="0 0 800 1000" id="map"></svg>
+            <h1>Plot database</h1>
+            <table class="ui compact celled unstackable definition table" id="database">
+                <thead>
+                    <tr>
+                        <th>Plot ID</th>
+                        <th>Name</th>
+                        <th>Death date</th>
+                        <th>Notes</th>
+                        <th>Plot polygon points</th>
+                        <th width="200">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="active">
+                        <td colspan="6" class="center aligned">
+                            <h2>No plots here...</h2>
+                            <p>To get started, add some plots.</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot class="full-width">
+                    <tr>
+                        <th colspan="6">
+                            <a class="ui right floated small primary labeled icon button">
+                                <i class="add icon"></i>
+                                Add new plot
+                            </a>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
         </main>
     </body>
 </html>

@@ -1,6 +1,7 @@
 main {
     width: 100vw;
-    height: calc(100vh - 100px);
+    min-height: calc(100vh - 100px);
+    overflow-x: auto;
 }
 
 .desktop {
@@ -11,9 +12,22 @@ main {
     display: none!important;
 }
 
-#map {
-    width: 100%;
+.pageForm {
+    background-color: #eeeeee;
+}
+
+.pageForm > .grid {
     height: 100%;
+}
+
+.pageForm .column {
+    max-width: 450px;
+    margin: 10px;
+}
+
+#map {
+    width: 100vw;
+    height: calc(100vh - 100px);
     object-fit: contain;
 }
 
@@ -23,6 +37,22 @@ main {
 
 #map a:hover {
     opacity: 0.8;
+}
+
+#map polygon {
+    stroke-width: 2px;
+}
+
+#map polygon.selected {
+    stroke: #ff5252;
+    stroke-width: 5px;
+    stroke-linejoin: round;
+}
+
+#database td input {
+    width: 100%;
+    min-width: 100px;
+    max-width: unset;
 }
 
 @media (max-width: 800px) {
