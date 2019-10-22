@@ -2,9 +2,14 @@ var mapData = null;
 var mapLoaded = false;
 var userID = null;
 var userFullName = null;
+var dataUnsaved = false;
 
 function getURLParameter(name) {
     return decodeURIComponent((new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(location.search) || [null, ""])[1].replace(/\+/g, "%20")) || null;
+}
+
+function hideToast() {
+    $(".toast").fadeOut();
 }
 
 firebase.auth().onAuthStateChanged(function(user) {
@@ -92,22 +97,22 @@ $(function() {
                         ),
                         $("<td>").append(
                             $("<div class='ui input'>").append(
-                                $("<input placeholder='(Unoccupied)'>").val(mapData[plot]["occupantName"])
+                                $("<input placeholder='(Unoccupied)' onchange='dataUnsaved = true;'>").val(mapData[plot]["occupantName"])
                             )
                         ),
                         $("<td>").append(
-                            $("<div class='ui input calendar'>").append(
-                                $("<input>").val(mapData[plot]["occupantDeathDate"])
-                            )
-                        ),
-                        $("<td>").append(
-                            $("<div class='ui input'>").append(
-                                $("<input>").val(mapData[plot]["occupantNotes"] || "")
+                            $("<div class='ui input calendar basic calendarPart'>").append(
+                                $("<input onchange='dataUnsaved = true;'>").val(mapData[plot]["occupantDeathDate"])
                             )
                         ),
                         $("<td>").append(
                             $("<div class='ui input'>").append(
-                                $("<input>").val(mapData[plot]["points"])
+                                $("<input onchange='dataUnsaved = true;'>").val(mapData[plot]["occupantNotes"] || "")
+                            )
+                        ),
+                        $("<td>").append(
+                            $("<div class='ui input'>").append(
+                                $("<input onchange='dataUnsaved = true;'>").val(mapData[plot]["points"])
                             )
                         ),
                         $("<td>").append([
@@ -123,6 +128,18 @@ $(function() {
                         ])
                     ])
                 );
+
+                $(".calendarPart").last().calendar({
+                    type: "date",
+                    startMode: "year",
+                    onChange: function() {
+                        dataUnsaved = true;
+                    }
+                });
+
+                if (mapData[plot]["occupantDeathDate"] != null) {
+                    $(".calendarPart").last().calendar("set date", new Date(mapData[plot]["occupantDeathDate"]));
+                }
             }
         }
 
@@ -134,4 +151,16 @@ $(function() {
             hoverable: true
         });
     });
+
+    setInterval(function() {
+        if (dataUnsaved) {
+            $(".toast").show();
+
+            setTimeout(function() {
+                $(".toast").fadeOut();
+            }, 3000);
+
+            dataUnsaved = false;
+        }
+    }, 5000);
 });

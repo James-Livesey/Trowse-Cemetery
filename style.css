@@ -25,6 +25,12 @@ main {
     margin: 10px;
 }
 
+.toast {
+    position: fixed!important;
+    top: 50px;
+    right: 20px;
+}
+
 #map {
     width: 100vw;
     height: calc(100vh - 100px);

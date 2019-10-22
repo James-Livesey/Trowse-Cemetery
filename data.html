@@ -45,12 +45,18 @@
                 </div>
             </div>
         </nav>
+        <div class="ui compact floating hidden success message toast">
+            <i onclick="hideToast();" class="close icon"></i>
+                <div class="header">Successfully saved!</div>
+                <p>The database was last saved a few seconds ago.</p>
+            </div>
+        </div>
         <main class="ui container">
             <div class="ui active inverted dimmer" id="loadingScreen">
                 <div class="ui text loader">Loading data...</div>
             </div>
             <h1>Plot database</h1>
-            <table class="ui compact celled unstackable definition table" id="database">
+            <table class="ui compact celled unstackable table" id="database">
                 <thead>
                     <tr>
                         <th>Plot ID</th>
