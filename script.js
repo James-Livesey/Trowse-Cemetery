@@ -141,6 +141,10 @@ $(function() {
                     $(".calendarPart").last().calendar("set date", new Date(mapData[plot]["occupantDeathDate"]));
                 }
 
+                $("tr.active").animate({left: 0, duration: "slow", complete: function() {
+                    $("tr.active").find("> td").eq(1).find("input").focus();                    
+                }});
+
                 dataUnsaved = false;
             }
         }
