@@ -140,6 +140,8 @@ $(function() {
                 if (mapData[plot]["occupantDeathDate"] != null) {
                     $(".calendarPart").last().calendar("set date", new Date(mapData[plot]["occupantDeathDate"]));
                 }
+
+                dataUnsaved = false;
             }
         }
 
@@ -154,7 +156,7 @@ $(function() {
 
     setInterval(function() {
         if (dataUnsaved && !$(document.activeElement).is("input")) {
-            $("#database > tbody > tr").each(function(i, row) {
+            $("#database > tbody > tr").each(function() {
                 var key = $(this).find("> td").eq(0).text();
                 var dataStructure = {
                     occupantName: $(this).find("> td").eq(1).find("input").val(),
@@ -171,11 +173,11 @@ $(function() {
                 };
 
                 if (mapData[key] != dataStructure) {
-                    firebase.database().ref("data/" + key).set(dataStructure);
+                    firebase.database().ref("data/" + key).set(dataStructure).then(function() {
+                        $(".toast").show();
+                    });
                 }
             });
-
-            $(".toast").show();
 
             setTimeout(function() {
                 $(".toast").fadeOut();
