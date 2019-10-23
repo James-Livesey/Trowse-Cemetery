@@ -59,22 +59,33 @@
             <table class="ui compact celled unstackable table" id="database">
                 <thead>
                     <tr>
-                        <th>Plot ID</th>
-                        <th>Name</th>
-                        <th>Death date</th>
-                        <th>Notes</th>
-                        <th>Plot polygon points</th>
-                        <th width="150">Options</th>
+                        <th>
+                            Plot ID
+                            <i class="circular help icon link" data-content="The plot ID is permanent, unless you delete the plot. You can press on a plot ID to reveal its location on the map."></i>
+                        </th>
+                        <th>
+                            Name
+                            <i class="circular help icon link" data-content="This is the full name of the occupant. To leave a plot vacant, just leave the field blank for the respective plot."></i>
+                        </th>
+                        <th>
+                            Death date
+                            <i class="circular help icon link" data-content="This is the death date of the occupant. Press the field to reveal a calendar."></i>
+                        </th>
+                        <th>
+                            Notes
+                            <i class="circular help icon link" data-content="You can store optional notes, links and more information here, with no limit."></i>
+                        </th>
+                        <th>
+                            Plot polygon points
+                            <i class="circular help icon link" data-content="You can plot the specified X,Y co-ordinates seperated by a space, in the range X: [0, 1000) Y: [0, 1000)."></i>
+                        </th>
+                        <th width="150">
+                            Options
+                            <i class="circular help icon link" data-html="The buttons for each field can control information about the plot. Press the <i aria-label='Toggle Reservation' class='tag icon'></i> button to toggle the reservation status of the plot, the <i aria-label='Remove Occupant' class='delete icon'></i> button to remove the occupant data from the plot, and the <i aria-label='Delete Plot' class='trash icon'></i> button to delete the plot entirely."></i>
+                        </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="active">
-                        <td colspan="6" class="center aligned">
-                            <h2>No plots here...</h2>
-                            <p>To get started, add some plots.</p>
-                        </td>
-                    </tr>
-                </tbody>
+                <tbody></tbody>
                 <tfoot class="full-width">
                     <tr>
                         <th colspan="6">

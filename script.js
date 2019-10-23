@@ -117,13 +117,13 @@ $(function() {
                         ),
                         $("<td>").append([
                             $("<a class='ui icon button'>").append(
-                                $("<i class='tag icon'>")
+                                $("<i aria-label='Toggle Reservation' class='tag icon'>")
                             ),
                             $("<a class='ui icon button'>").append(
-                                $("<i class='delete icon'>")
+                                $("<i aria-label='Remove Occupant' class='delete icon'>")
                             ),
                             $("<a class='ui negative icon button'>").append(
-                                $("<i class='trash icon'>")
+                                $("<i aria-label='Delete Plot' class='trash icon'>")
                             )
                         ])
                     ])
@@ -153,7 +153,28 @@ $(function() {
     });
 
     setInterval(function() {
-        if (dataUnsaved) {
+        if (dataUnsaved && !$(document.activeElement).is("input")) {
+            $("#database > tbody > tr").each(function(i, row) {
+                var key = $(this).find("> td").eq(0).text();
+                var dataStructure = {
+                    occupantName: $(this).find("> td").eq(1).find("input").val(),
+                    occupantDeathDate: $(this).find("> td").eq(2).find(".calendarPart").calendar("get date") == null ? null : $(this).find("td > .calendarPart").eq(0).calendar("get date").getTime(),
+                    occupantNotes: $(this).find("> td").eq(3).find("input").val(),
+                    points: $(this).find("> td").eq(4).find("input").val(),
+                    usage: (
+                        (
+                            $(this).find("> td").eq(1).find("input").val() != "" && $(this).find("> td").eq(1).find("input").val() != null
+                        ) ? (
+                            $("#database > tbody > tr").eq(0).find("> td").eq(5).find("a").eq(0).is(".blue") ? "reserved" : "occupied"
+                        ) : null
+                    )
+                };
+
+                if (mapData[key] != dataStructure) {
+                    firebase.database().ref("data/" + key).set(dataStructure);
+                }
+            });
+
             $(".toast").show();
 
             setTimeout(function() {
@@ -162,5 +183,7 @@ $(function() {
 
             dataUnsaved = false;
         }
-    }, 5000);
+    }, 2000);
+
+    $("[data-content], [data-html]").popup();
 });
