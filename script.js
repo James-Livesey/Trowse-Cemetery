@@ -8,8 +8,31 @@ function getURLParameter(name) {
     return decodeURIComponent((new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(location.search) || [null, ""])[1].replace(/\+/g, "%20")) || null;
 }
 
+function displayToast() {
+    $(".toast").show();
+
+    setTimeout(function() {
+        $(".toast").fadeOut();
+    }, 3000);
+}
+
 function hideToast() {
     $(".toast").fadeOut();
+}
+
+function reservedButton(subject, state) {
+    var plot = $(subject).parent().parent().find("td").eq(0).text();
+    var firstField = $(subject).parent().parent().find("td").eq(1).find("input").val();
+
+    if (state) {
+        firebase.database().ref("data/" + plot + "/usage").set("reserved").then(displayToast);
+    } else {
+        if (firstField == "") {
+            firebase.database().ref("data/" + plot + "/usage").set(null).then(displayToast);
+        } else {
+            firebase.database().ref("data/" + plot + "/usage").set("occupied").then(displayToast);
+        }
+    }
 }
 
 firebase.auth().onAuthStateChanged(function(user) {
@@ -44,8 +67,8 @@ $(function() {
                 var svgText = document.createElementNS("http://www.w3.org/2000/svg", "text");
                 var svgLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
 
-                svgPolygon.setAttribute("fill", mapData[plot]["usage"] == "occupied" ? "#ffdc96" : (mapData[plot]["usage"] == "reserved" ? "#59a3ff" : "#f0f0f0"));
-                svgPolygon.setAttribute("stroke", mapData[plot]["usage"] == "occupied" ? "#ffc247" : (mapData[plot]["usage"] == "reserved" ? "#96c5ff" : "#d1d1d1"));
+                svgPolygon.setAttribute("fill", mapData[plot]["usage"] == "occupied" ? "#ffdc96" : (mapData[plot]["usage"] == "reserved" ? "#96c5ff" : "#f0f0f0"));
+                svgPolygon.setAttribute("stroke", mapData[plot]["usage"] == "occupied" ? "#ffc247" : (mapData[plot]["usage"] == "reserved" ? "#59a3ff" : "#d1d1d1"));
                 svgText.setAttribute("fill", "black");
                 svgText.setAttribute("font-size", "30px");
                 svgText.textContent = plot;
@@ -83,9 +106,16 @@ $(function() {
             
             for (var plot in mapData) {
                 var tableRow = "<tr>";
+                var reservedButton = "<button class='ui icon button'>";
+                var reservedButtonFunction = "reservedButton(this, true);";
 
                 if (plot == getURLParameter("selectedPlot")) {
                     tableRow = "<tr class='active'>";
+                }
+
+                if (mapData[plot]["usage"] == "reserved") {
+                    reservedButton = "<button class='ui icon blue button'>";
+                    reservedButtonFunction = "reservedButton(this, false);";
                 }
 
                 $("#database tbody").append(
@@ -116,13 +146,13 @@ $(function() {
                             )
                         ),
                         $("<td>").append([
-                            $("<a class='ui icon button'>").append(
+                            $(reservedButton).attr("onclick", reservedButtonFunction).append(
                                 $("<i aria-label='Toggle Reservation' class='tag icon'>")
                             ),
-                            $("<a class='ui icon button'>").append(
+                            $("<button class='ui icon button'>").append(
                                 $("<i aria-label='Remove Occupant' class='delete icon'>")
                             ),
-                            $("<a class='ui negative icon button'>").append(
+                            $("<button class='ui negative icon button'>").append(
                                 $("<i aria-label='Delete Plot' class='trash icon'>")
                             )
                         ])
@@ -171,21 +201,17 @@ $(function() {
                         (
                             $(this).find("> td").eq(1).find("input").val() != "" && $(this).find("> td").eq(1).find("input").val() != null
                         ) ? (
-                            $("#database > tbody > tr").eq(0).find("> td").eq(5).find("a").eq(0).is(".blue") ? "reserved" : "occupied"
-                        ) : null
+                            $(this).find("> td").eq(5).find("button").eq(0).is(".blue") ? "reserved" : "occupied"
+                        ) : (
+                            $(this).find("> td").eq(5).find("button").eq(0).is(".blue") ? "reserved" : null
+                        )
                     )
                 };
 
                 if (mapData[key] != dataStructure) {
-                    firebase.database().ref("data/" + key).set(dataStructure).then(function() {
-                        $(".toast").show();
-                    });
+                    firebase.database().ref("data/" + key).set(dataStructure).then(displayToast);
                 }
             });
-
-            setTimeout(function() {
-                $(".toast").fadeOut();
-            }, 3000);
 
             dataUnsaved = false;
         }
