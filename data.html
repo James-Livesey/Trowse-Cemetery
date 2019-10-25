@@ -89,7 +89,7 @@
                 <tfoot class="full-width">
                     <tr>
                         <th colspan="6">
-                            <a class="ui right floated small primary labeled icon button">
+                            <a href="javascript:showAddPlotModal();" class="ui right floated small primary labeled icon button">
                                 <i class="add icon"></i>
                                 Add new plot
                             </a>
@@ -98,5 +98,31 @@
                 </tfoot>
             </table>
         </main>
+        <div class="ui tiny modal" id="addPlotModal">
+            <div class="header">Add new plot</div>
+            <div class="content">
+                <form class="ui form">
+                    <div class="field">
+                        <label>
+                            Plot ID
+                            <i class="circular help icon link" data-content="The plot ID is permanent, unless you delete the plot."></i>
+                        </label>
+                        <input name="plotID" placeholder="Example: F4">
+                    </div>
+                    <div class="field">
+                        <label>
+                            Plot polygon points
+                            <i class="circular help icon link" data-content="You can plot the specified X,Y co-ordinates seperated by a space, in the range X: [0, 1000) Y: [0, 1000)."></i>
+                        </label>
+                        <input name="plotPoints" placeholder="Example: 50,75 100,75 100,275 50,275">
+                    </div>
+                    <div class="ui error message"></div>
+                </form>
+            </div>
+            <div class="actions">
+                <a href="javascript:hideAddPlotModal();" class="ui button">Cancel</a>
+                <a class="ui positive button">Add plot</a>
+            </div>
+        </div>
     </body>
 </html>

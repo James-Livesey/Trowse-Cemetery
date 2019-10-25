@@ -20,19 +20,57 @@ function hideToast() {
     $(".toast").fadeOut();
 }
 
+function showAddPlotModal() {
+    $("#addPlotModal").modal("show");
+}
+
+function hideAddPlotModal() {
+    setTimeout(function() {
+        $("#addPlotModal input").val("");
+        
+        $("#addPlotModal .ui.positive.button").removeClass("loading");
+    }, 500);
+
+    $("#addPlotModal").modal("hide");
+}
+
+function addPlot() {
+    if ($("#addPlotModal .ui.form").form("validate form")) {
+        $("#addPlotModal .ui.positive.button").addClass("loading");
+
+        firebase.database().ref("data/" + $("#addPlotModal [name='plotID']").val() + "/points")
+            .set($("#addPlotModal [name='plotPoints']").val())
+            .then(function() {
+                hideAddPlotModal();
+
+                displayToast();
+            })
+        ;
+    }
+}
+
 function reservedButton(subject, state) {
     var plot = $(subject).parent().parent().find("td").eq(0).text();
     var firstField = $(subject).parent().parent().find("td").eq(1).find("input").val();
 
+    // if (state) {
+    //     firebase.database().ref("data/" + plot + "/usage").set("reserved").then(displayToast);
+    // } else {
+    //     if (firstField == "") {
+    //         firebase.database().ref("data/" + plot + "/usage").set(null).then(displayToast);
+    //     } else {
+    //         firebase.database().ref("data/" + plot + "/usage").set("occupied").then(displayToast);
+    //     }
+    // }
+
+
     if (state) {
-        firebase.database().ref("data/" + plot + "/usage").set("reserved").then(displayToast);
+        $(subject).addClass("blue");
     } else {
-        if (firstField == "") {
-            firebase.database().ref("data/" + plot + "/usage").set(null).then(displayToast);
-        } else {
-            firebase.database().ref("data/" + plot + "/usage").set("occupied").then(displayToast);
-        }
+        $(subject).removeClass("blue");
     }
+
+    dataUnsaved = true;
 }
 
 firebase.auth().onAuthStateChanged(function(user) {
@@ -192,9 +230,10 @@ $(function() {
         if (dataUnsaved && !$(document.activeElement).is("input")) {
             $("#database > tbody > tr").each(function() {
                 var key = $(this).find("> td").eq(0).text();
+                console.log($(this).find("td > .calendarPart").eq(0).calendar("get date"));
                 var dataStructure = {
                     occupantName: $(this).find("> td").eq(1).find("input").val(),
-                    occupantDeathDate: $(this).find("> td").eq(2).find(".calendarPart").calendar("get date") == null ? null : $(this).find("td > .calendarPart").eq(0).calendar("get date").getTime(),
+                    occupantDeathDate: $(this).find("td > .calendarPart").eq(0).calendar("get date") == null ? null : $(this).find("td > .calendarPart").eq(0).calendar("get date").getTime(),
                     occupantNotes: $(this).find("> td").eq(3).find("input").val(),
                     points: $(this).find("> td").eq(4).find("input").val(),
                     usage: (
@@ -218,4 +257,38 @@ $(function() {
     }, 2000);
 
     $("[data-content], [data-html]").popup();
+
+    $("#addPlotModal").modal({
+        onApprove: function() {
+            addPlot();
+
+            return false;
+        }
+    });
+
+    $("#addPlotModal .ui.form").form({
+        fields: {
+            plotID: {
+                identifier: "plotID",
+
+                rules: [
+                    {
+                        type: "empty",
+                        prompt: "Please enter the plot ID."
+                    }
+                ]
+            },
+
+            plotPoints: {
+                identifier: "plotPoints",
+
+                rules: [
+                    {
+                        type: "empty",
+                        prompt: "Please enter the plot points."
+                    }
+                ]
+            }
+        }
+    });
 });

@@ -7,7 +7,7 @@ $(function() {
                 rules: [
                     {
                         type: "empty",
-                        prompt: "Please enter your email address to sign in."
+                        prompt: "Please enter your email address."
                     },
                     {
                         type: "email",
@@ -22,7 +22,7 @@ $(function() {
                 rules: [
                     {
                         type: "empty",
-                        prompt: "Please enter your password to sign in."
+                        prompt: "Please enter your password."
                     },
                     {
                         type: "length[3]",
