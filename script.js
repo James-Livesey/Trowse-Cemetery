@@ -1,8 +1,12 @@
 var mapData = null;
 var mapLoaded = false;
+
 var userID = null;
 var userFullName = null;
+
 var dataUnsaved = false;
+
+var modalPlotTarget = null;
 
 function getURLParameter(name) {
     return decodeURIComponent((new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(location.search) || [null, ""])[1].replace(/\+/g, "%20")) || null;
@@ -49,21 +53,55 @@ function addPlot() {
     }
 }
 
+function showRemoveOccupantModal(subject) {
+    modalPlotTarget = $(subject).parent().parent().find("td").eq(0).text();
+
+    $("#removeOccupantModal").modal("show");
+}
+
+function hideRemoveOccupantModal() {
+    modalPlotTarget = null;
+
+    $("#removeOccupantModal").modal("hide");
+}
+
+function removeOccupant() {
+    var occupantKeys = ["occupantName", "occupantDeathDate", "occupantNotes", "usage"];
+
+    for (var i = 0; i < occupantKeys.length; i++) {
+        if (i == occupantKeys.length - 1) {
+            firebase.database().ref("data/" + modalPlotTarget + "/" + occupantKeys[i]).set(null).then(function() {
+                hideRemoveOccupantModal();
+
+                displayToast();
+            });
+        } else {
+            firebase.database().ref("data/" + modalPlotTarget + "/" + occupantKeys[i]).set(null);
+        }
+    }
+}
+
+function showDeletePlotModal(subject) {
+    modalPlotTarget = $(subject).parent().parent().find("td").eq(0).text();
+
+    $("#deletePlotModal").modal("show");
+}
+
+function hideDeletePlotModal() {
+    modalPlotTarget = null;
+
+    $("#deletePlotModal").modal("hide");
+}
+
+function deletePlot() {
+    firebase.database().ref("data/" + modalPlotTarget).set(null).then(function() {
+        hideDeletePlotModal();
+
+        displayToast();
+    });
+}
+
 function reservedButton(subject, state) {
-    var plot = $(subject).parent().parent().find("td").eq(0).text();
-    var firstField = $(subject).parent().parent().find("td").eq(1).find("input").val();
-
-    // if (state) {
-    //     firebase.database().ref("data/" + plot + "/usage").set("reserved").then(displayToast);
-    // } else {
-    //     if (firstField == "") {
-    //         firebase.database().ref("data/" + plot + "/usage").set(null).then(displayToast);
-    //     } else {
-    //         firebase.database().ref("data/" + plot + "/usage").set("occupied").then(displayToast);
-    //     }
-    // }
-
-
     if (state) {
         $(subject).addClass("blue");
     } else {
@@ -187,10 +225,10 @@ $(function() {
                             $(reservedButton).attr("onclick", reservedButtonFunction).append(
                                 $("<i aria-label='Toggle Reservation' class='tag icon'>")
                             ),
-                            $("<button class='ui icon button'>").append(
+                            $("<button class='ui icon button'>").attr("onclick", "showRemoveOccupantModal(this);").append(
                                 $("<i aria-label='Remove Occupant' class='delete icon'>")
                             ),
-                            $("<button class='ui negative icon button'>").append(
+                            $("<button class='ui negative icon button'>").attr("onclick", "showDeletePlotModal(this);").append(
                                 $("<i aria-label='Delete Plot' class='trash icon'>")
                             )
                         ])
@@ -230,7 +268,6 @@ $(function() {
         if (dataUnsaved && !$(document.activeElement).is("input")) {
             $("#database > tbody > tr").each(function() {
                 var key = $(this).find("> td").eq(0).text();
-                console.log($(this).find("td > .calendarPart").eq(0).calendar("get date"));
                 var dataStructure = {
                     occupantName: $(this).find("> td").eq(1).find("input").val(),
                     occupantDeathDate: $(this).find("td > .calendarPart").eq(0).calendar("get date") == null ? null : $(this).find("td > .calendarPart").eq(0).calendar("get date").getTime(),
@@ -289,6 +326,22 @@ $(function() {
                     }
                 ]
             }
+        }
+    });
+
+    $("#removeOccupantModal").modal({
+        onApprove: function() {
+            removeOccupant();
+
+            return false;
+        }
+    });
+
+    $("#deletePlotModal").modal({
+        onApprove: function() {
+            deletePlot();
+
+            return false;
         }
     });
 });

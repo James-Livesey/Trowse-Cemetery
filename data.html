@@ -121,7 +121,23 @@
             </div>
             <div class="actions">
                 <a href="javascript:hideAddPlotModal();" class="ui button">Cancel</a>
-                <a class="ui positive button">Add plot</a>
+                <a class="ui positive approve button">Add plot</a>
+            </div>
+        </div>
+        <div class="ui tiny modal" id="removeOccupantModal">
+            <div class="header">Remove occupant</div>
+            <div class="content">Do you really want to remove the occupant from this plot?</div>
+            <div class="actions">
+                <a href="javascript:hideRemoveOccupantModal();" class="ui button">Cancel</a>
+                <a class="ui negative approve button">Remove</a>
+            </div>
+        </div>
+        <div class="ui tiny modal" id="deletePlotModal">
+            <div class="header">Delete plot</div>
+            <div class="content">Do you really want to delete this plot?</div>
+            <div class="actions">
+                <a class="ui button">Cancel</a>
+                <a class="ui negative approve button">Delete</a>
             </div>
         </div>
     </body>
