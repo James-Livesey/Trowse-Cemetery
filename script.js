@@ -5,6 +5,7 @@ var userID = null;
 var userFullName = null;
 
 var dataUnsaved = false;
+var dataEditable = false;
 
 var modalPlotTarget = null;
 
@@ -111,26 +112,42 @@ function reservedButton(subject, state) {
     dataUnsaved = true;
 }
 
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-        firebase.database().ref("users/" + user.uid + "/name").on(function(snapshot) {
-            userID = user.uid;
-            userFullName = snapshot.val();
-
-            $("#accountArea").html("").append(
-                $("<a class='ui right labeled icon button'>").append([
-                    $("<span>").text(userFullName),
-                    $("<i class='down arrow icon'>")
-                ])
-            );
-        });
-    } else {
-        userID = null;
-        userFullName = null;
-    }
-});
-
 $(function() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            firebase.database().ref("users/" + user.uid + "/name").on("value", function(snapshot) {
+                userID = user.uid;
+                userFullName = snapshot.val();
+    
+                $("#accountArea").html("").append(
+                    $("<a class='ui pointing dropdown'>").append([
+                        $("<div class='text'>").text(userFullName),
+                        $("<i class='dropdown icon'>"),
+                        $("<div class='menu'>").append([
+                            $("<a href='javascript:firebase.auth().signOut();' class='item'>").append([
+                                $("<i class='user icon'>"),
+                                $("<span>").text("Sign out")
+                            ])
+                        ])
+                    ])
+                );
+    
+                $(".ui.dropdown").dropdown();
+            });
+    
+            dataEditable = true;
+        } else {
+            userID = null;
+            userFullName = null;
+    
+            $("#accountArea").html("").append(
+                $("<a href='signin.html' class='ui primary button'>").text("Sign in")
+            );
+    
+            dataEditable = false;
+        }
+    });
+
     firebase.database().ref("data").on("value", function(snapshot) {
         mapData = snapshot.val();
         mapLoaded = true;
@@ -292,6 +309,20 @@ $(function() {
             dataUnsaved = false;
         }
     }, 2000);
+
+    setInterval(function() {
+        if (dataEditable) {
+            $("table input, table button").removeAttr("disabled");
+
+            $(".dataEditable").show();
+            $(".dataUneditable").hide();
+        } else {
+            $("table input, table button").attr("disabled", "");
+
+            $(".dataEditable").hide();
+            $(".dataUneditable").show();
+        }
+    })
 
     $("[data-content], [data-html]").popup();
 

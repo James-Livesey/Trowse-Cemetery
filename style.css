@@ -25,6 +25,10 @@ main {
     margin: 10px;
 }
 
+.pageForm .afterForm {
+    margin-top: 10px;
+}
+
 .toast {
     position: fixed!important;
     top: 50px;

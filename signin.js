@@ -1,4 +1,24 @@
+function signIn() {
+    $(".ui.form").form("validate form");
+
+    if ($(".ui.form").form("is valid")) {
+        firebase.auth().signInWithEmailAndPassword($("[name='email']").val(), $("[name='password']").val()).catch(function(error) {
+            $(".ui.error.message").html("").append(
+                $("<ul class='list'>").append(
+                    $("<li>").text(error.message)
+                )
+            ).show();
+        })
+    }
+}
+
 $(function() {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            window.location.href = "index.html";
+        }
+    });
+
     $(".ui.form").form({
         fields: {
             email: {

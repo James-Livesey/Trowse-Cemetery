@@ -56,6 +56,9 @@
                 <div class="ui text loader">Loading data...</div>
             </div>
             <h1>Plot database</h1>
+            <div class="ui info message dataUneditable">
+                <p>To edit the plot database, please sign in with a whitelisted account.</p>
+            </div>
             <table class="ui compact celled unstackable table" id="database">
                 <thead>
                     <tr>
@@ -89,10 +92,10 @@
                 <tfoot class="full-width">
                     <tr>
                         <th colspan="6">
-                            <a href="javascript:showAddPlotModal();" class="ui right floated small primary labeled icon button">
+                            <button onclick="showAddPlotModal();" class="ui right floated small primary labeled icon button">
                                 <i class="add icon"></i>
                                 Add new plot
-                            </a>
+                            </button>
                         </th>
                     </tr>
                 </tfoot>
