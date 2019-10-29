@@ -2,7 +2,11 @@ function signIn() {
     $(".ui.form").form("validate form");
 
     if ($(".ui.form").form("is valid")) {
+        $("#signInButton").addClass("loading");
+
         firebase.auth().signInWithEmailAndPassword($("[name='email']").val(), $("[name='password']").val()).catch(function(error) {
+            $("#signInButton").removeClass("loading");
+            
             $(".ui.error.message").html("").append(
                 $("<ul class='list'>").append(
                     $("<li>").text(error.message)
