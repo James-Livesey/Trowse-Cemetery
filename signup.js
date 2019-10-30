@@ -1,11 +1,15 @@
-function signIn() {
+var signingUp = false;
+
+function signUp() {
     $(".ui.form").form("validate form");
 
     if ($(".ui.form").form("is valid")) {
-        $("#signInButton").addClass("loading");
+        $("#signUpButton").addClass("loading");
 
-        firebase.auth().signInWithEmailAndPassword($("[name='email']").val(), $("[name='password']").val()).catch(function(error) {
-            $("#signInButton").removeClass("loading");
+        firebase.auth().createUserWithEmailAndPassword($("[name='email']").val(), $("[name='password']").val()).then(function() {
+            signingUp = true;
+        }).catch(function(error) {
+            $("#signUpButton").removeClass("loading");
             
             $(".ui.error.message").html("").append(
                 $("<ul class='list'>").append(
@@ -18,8 +22,14 @@ function signIn() {
 
 $(function() {
     firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-            window.location.href = "index.html";
+        if (!signingUp) {
+            if (user) {
+                window.location.href = "index.html";
+            }
+        } else {
+            firebase.database().ref("users/" + user.uid + "/name").set($("[name='name']").val()).then(function() {
+                window.location.href = "index.html";
+            });
         }
     });
 
