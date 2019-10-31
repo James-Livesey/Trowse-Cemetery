@@ -34,6 +34,8 @@ $(function() {
     });
 
     $(".ui.form").form({
+        keyboardShorcuts: false,
+
         fields: {
             email: {
                 identifier: "email",
@@ -64,6 +66,12 @@ $(function() {
                     }
                 ]
             }
+        }
+    });
+
+    $("[name='password']").keypress(function(event) {
+        if (event.keyCode == 13) { // Enter
+            signIn();
         }
     });
 });

@@ -124,6 +124,10 @@ $(function() {
                         $("<div class='text'>").text(userFullName),
                         $("<i class='dropdown icon'>"),
                         $("<div class='menu'>").append([
+                            $("<a class='item'>").attr("href", "settings.html").append([
+                                $("<i class='settings icon'>"),
+                                $("<span>").text("Settings")
+                            ]),
                             $("<a href='javascript:firebase.auth().signOut();' class='item'>").append([
                                 $("<i class='user icon'>"),
                                 $("<span>").text("Sign out")

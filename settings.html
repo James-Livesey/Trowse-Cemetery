@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Trowse Cemetery</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, minimal-ui">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css">
+        <link rel="stylesheet" href="lib/semantic.min.css">
+        <link rel="stylesheet" href="lib/calendar.min.css">
+                <link rel="stylesheet" href="style.css">
+        <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
+        <script>
+            var firebaseConfig = {
+                apiKey: "AIzaSyB6xYV93RLmxOVSOznJJWyvrAKmBXFI-Ec",
+                authDomain: "trowse-cemetery.firebaseapp.com",
+                databaseURL: "https://trowse-cemetery.firebaseio.com",
+                projectId: "trowse-cemetery",
+                storageBucket: "trowse-cemetery.appspot.com",
+                messagingSenderId: "748853109441",
+                appId: "1:748853109441:web:80578725276c01b1816a40",
+                measurementId: "G-JS7E4V6046"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+        </script>
+        <script src="lib/jquery.min.js"></script>
+        <script src="lib/semantic.min.js"></script>
+        <script src="lib/calendar.min.js"></script>
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <nav class="ui tabular menu">
+            <div class="header item desktop">Trowse Cemetery</div>
+            <a href="index.html" class="item">Map</a>
+            <a href="data.html" class="item">Data</a>
+            <div class="right menu">
+                <div class="item desktop">
+                    <div class="ui icon input">
+                        <input type="text" placeholder="Search for anything..." id="search">
+                        <i class="search link icon"></i>
+                    </div>
+                </div>
+                <div class="item" id="accountArea">
+                    <a href="signin.html" class="ui primary button">Sign in</a>
+                </div>
+            </div>
+        </nav>
+        <main class="ui container">
+            <div class="ui active inverted dimmer" id="loadingScreen">
+                <div class="ui text loader">Loading data...</div>
+            </div>
+            <h1>Settings</h1>
+            <div class="ui info message dataUneditable">
+                <p>To change your account's settings, please sign in.</p>
+            </div>
+            <div class="dataEditable"> <!-- TODO: Replace with class that more represents if you're signed in or not -->
+                <p>Coming soon!</p>
+            </div>
+        </main>
+    </body>
+</html>
