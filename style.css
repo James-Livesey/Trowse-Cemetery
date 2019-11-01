@@ -12,6 +12,14 @@ main {
     display: none!important;
 }
 
+.signedIn {
+    display: none;
+}
+
+.notSignedIn {
+    display: unset;
+}
+
 .pageForm {
     background-color: #eeeeee;
 }

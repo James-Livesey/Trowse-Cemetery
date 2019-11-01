@@ -140,6 +140,9 @@ $(function() {
             });
     
             dataEditable = true;
+
+            $(".signedIn").show();
+            $(".notSignedIn").hide();
         } else {
             userID = null;
             userFullName = null;
@@ -149,6 +152,9 @@ $(function() {
             );
     
             dataEditable = false;
+
+            $(".signedIn").hide();
+            $(".notSignedIn").show();
         }
     });
 
