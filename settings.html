@@ -27,6 +27,7 @@
         <script src="lib/semantic.min.js"></script>
         <script src="lib/calendar.min.js"></script>
         <script src="script.js"></script>
+        <script src="settings.js"></script>
     </head>
     <body>
         <nav class="ui tabular menu">
@@ -51,12 +52,28 @@
             </div>
             <h1>Settings</h1>
             <div class="notSignedIn">
-                <div class="ui info message">
-                    <p>To change your account's settings, please sign in.</p>
+                <div class="ui placeholder segment">
+                    <div class="ui icon header">
+                        <i class="user icon"></i>
+                        To change your account's settings, please sign in.
+                    </div>
+                    <div class="inline">
+                        <a href="signin.html" class="ui primary button">Sign in</a>
+                        <a href="index.html" class="ui button">Home</a>
+                    </div>
                 </div>
             </div>
             <div class="signedIn">
-                <p>Coming soon!</p>
+                <div class="ui form">
+                        <div class="eight wide field">
+                            <label>Full name</label>
+                            <div class="ui action input">
+                                <input class="name">
+                                <a href="javascript:saveName();" class="ui button nameButton">Save</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </body>

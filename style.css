@@ -43,6 +43,13 @@ main {
     right: 20px;
 }
 
+#accountArea .ui.pointing.dropdown .text {
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 #map {
     width: 100vw;
     height: calc(100vh - 100px);

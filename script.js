@@ -139,7 +139,13 @@ $(function() {
                 $(".ui.dropdown").dropdown();
             });
     
-            dataEditable = true;
+            firebase.database().ref("whitelistedUsers").on("value", function(snapshot) {
+                if (snapshot.val() != null) {
+                    dataEditable = user.uid in snapshot.val();
+                } else {
+                    dataEditable = false;
+                }
+            });
 
             $(".signedIn").show();
             $(".notSignedIn").hide();
