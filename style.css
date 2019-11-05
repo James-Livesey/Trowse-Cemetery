@@ -88,4 +88,8 @@ main {
     .mobile {
         display: unset!important;
     }
+
+    .ui.form .eight.wide.field {
+        width: 100%!important;
+    }
 }
