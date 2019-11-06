@@ -27,6 +27,8 @@ function hideToast() {
 
 function showAddPlotModal() {
     $("#addPlotModal").modal("show");
+
+    $("[data-content], [data-html]").popup();
 }
 
 function hideAddPlotModal() {
@@ -58,6 +60,8 @@ function showRemoveOccupantModal(subject) {
     modalPlotTarget = $(subject).parent().parent().find("td").eq(0).text();
 
     $("#removeOccupantModal").modal("show");
+
+    $("[data-content], [data-html]").popup();
 }
 
 function hideRemoveOccupantModal() {
@@ -86,6 +90,8 @@ function showDeletePlotModal(subject) {
     modalPlotTarget = $(subject).parent().parent().find("td").eq(0).text();
 
     $("#deletePlotModal").modal("show");
+
+    $("[data-content], [data-html]").popup();
 }
 
 function hideDeletePlotModal() {
