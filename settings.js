@@ -10,7 +10,7 @@ function hideChangeEmailModal() {
     setTimeout(function() {
         $("#changeEmailModal input").val("");
         
-        $("#changeEmailModal .ui.positive.button").removeClass("loading");
+        $("#changeEmailModal .ui.approve.button").removeClass("loading");
     }, 500);
 
     $("#changeEmailModal").modal("hide");
@@ -18,14 +18,14 @@ function hideChangeEmailModal() {
 
 function changeEmail() {
     if ($("#changeEmailModal .ui.form").form("validate form")) {
-        $("#changeEmailModal .ui.positive.button").addClass("loading");
+        $("#changeEmailModal .ui.approve.button").addClass("loading");
 
         firebase.auth().signInWithEmailAndPassword($("#changeEmailModal [name='changeEmailCurrentEmail']").val(), $("#changeEmailModal [name='changeEmailCurrentPassword']").val())
             .then(function(credentials) {
                 credentials.user.updateEmail($("#changeEmailModal [name='changeEmailNewEmail']").val()).then(function() {
                     hideChangeEmailModal();
                 }).catch(function(error) {
-                    $("#changeEmailModal .ui.positive.button").removeClass("loading");
+                    $("#changeEmailModal .ui.approve.button").removeClass("loading");
             
                     $("#changeEmailModal .ui.error.message").html("").append(
                         $("<ul class='list'>").append(
@@ -34,7 +34,7 @@ function changeEmail() {
                     ).show();
                 });
             }).catch(function(error) {
-                $("#changeEmailModal .ui.positive.button").removeClass("loading");
+                $("#changeEmailModal .ui.approve.button").removeClass("loading");
             
                 $("#changeEmailModal .ui.error.message").html("").append(
                     $("<ul class='list'>").append(
@@ -56,7 +56,7 @@ function hideChangePasswordModal() {
     setTimeout(function() {
         $("#changePasswordModal input").val("");
         
-        $("#changePasswordModal .ui.positive.button").removeClass("loading");
+        $("#changePasswordModal .ui.approve.button").removeClass("loading");
     }, 500);
 
     $("#changePasswordModal").modal("hide");
@@ -64,14 +64,14 @@ function hideChangePasswordModal() {
 
 function changePassword() {
     if ($("#changePasswordModal .ui.form").form("validate form")) {
-        $("#changePasswordModal .ui.positive.button").addClass("loading");
+        $("#changePasswordModal .ui.approve.button").addClass("loading");
 
         firebase.auth().signInWithEmailAndPassword($("#changePasswordModal [name='changePasswordCurrentEmail']").val(), $("#changePasswordModal [name='changePasswordCurrentPassword']").val())
             .then(function(credentials) {
                 credentials.user.updatePassword($("#changePasswordModal [name='changePasswordNewPassword']").val()).then(function() {
                     hideChangePasswordModal();
                 }).catch(function(error) {
-                    $("#changePasswordModal .ui.positive.button").removeClass("loading");
+                    $("#changePasswordModal .ui.approve.button").removeClass("loading");
             
                     $("#changePasswordModal .ui.error.message").html("").append(
                         $("<ul class='list'>").append(
@@ -80,9 +80,57 @@ function changePassword() {
                     ).show();
                 });
             }).catch(function(error) {
-                $("#changePasswordModal .ui.positive.button").removeClass("loading");
+                $("#changePasswordModal .ui.approve.button").removeClass("loading");
             
                 $("#changePasswordModal .ui.error.message").html("").append(
+                    $("<ul class='list'>").append(
+                        $("<li>").text(error.message)
+                    )
+                ).show();
+            })
+        ;
+    }
+}
+
+function showDeleteAccountModal() {
+    $("#deleteAccountModal").modal("show");
+
+    $("[data-content], [data-html]").popup();
+}
+
+function hideDeleteAccountModal() {
+    setTimeout(function() {
+        $("#deleteAccountModal input").val("");
+        
+        $("#deleteAccountModal .ui.negative.button").removeClass("loading");
+    }, 500);
+
+    $("#deleteAccountModal").modal("hide");
+}
+
+function deleteAccount() {
+    if ($("#deleteAccountModal .ui.form").form("validate form")) {
+        $("#deleteAccountModal .ui.negative.button").addClass("loading");
+
+        firebase.auth().signInWithEmailAndPassword($("#deleteAccountModal [name='deleteAccountCurrentEmail']").val(), $("#deleteAccountModal [name='deleteAccountCurrentPassword']").val())
+            .then(function(credentials) {
+                credentials.user.delete().then(function() {
+                    hideDeleteAccountModal();
+
+                    window.location.href = "index.html";
+                }).catch(function(error) {
+                    $("#deleteAccountModal .ui.negative.button").removeClass("loading");
+            
+                    $("#deleteAccountModal .ui.error.message").html("").append(
+                        $("<ul class='list'>").append(
+                            $("<li>").text(error.message)
+                        )
+                    ).show();
+                });
+            }).catch(function(error) {
+                $("#deleteAccountModal .ui.negative.button").removeClass("loading");
+            
+                $("#deleteAccountModal .ui.error.message").html("").append(
                     $("<ul class='list'>").append(
                         $("<li>").text(error.message)
                     )
@@ -96,11 +144,13 @@ $(function() {
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             saveName = function() {
-                $(".nameButton").addClass("loading");
+                if ($(".name").val().trim() != "") {
+                    $(".nameButton").addClass("loading");
 
-                firebase.database().ref("users/" + user.uid + "/name").set($(".name").val()).then(function() {
-                    $(".nameButton").removeClass("loading");
-                });
+                    firebase.database().ref("users/" + user.uid + "/name").set($(".name").val()).then(function() {
+                        $(".nameButton").removeClass("loading");
+                    });
+                }
             }
 
             firebase.database().ref("users/" + user.uid + "/name").on("value", function(snapshot) {
@@ -218,7 +268,7 @@ $(function() {
                 ]
             },
 
-            newEmail: {
+            newPassword: {
                 identifier: "changePasswordNewPassword",
 
                 rules: [
@@ -229,6 +279,50 @@ $(function() {
                     {
                         type: "length[6]",
                         prompt: "Your new password must be at least 6 characters long."
+                    }
+                ]
+            }
+        }
+    });
+
+    $("#deleteAccountModal").modal({
+        onDeny: function() {
+            deleteAccount();
+
+            return false;
+        }
+    });
+
+    $("#deleteAccountModal .ui.form").form({
+        keyboardShortcuts: false,
+
+        fields: {
+            currentEmail: {
+                identifier: "deleteAccountCurrentEmail",
+
+                rules: [
+                    {
+                        type: "empty",
+                        prompt: "Please enter your email address."
+                    },
+                    {
+                        type: "email",
+                        prompt: "Please enter a valid email address."
+                    }
+                ]
+            },
+
+            currentPassword: {
+                identifier: "deleteAccountCurrentPassword",
+
+                rules: [
+                    {
+                        type: "empty",
+                        prompt: "Please enter your current password."
+                    },
+                    {
+                        type: "length[6]",
+                        prompt: "Your password must be at least 6 characters long."
                     }
                 ]
             }

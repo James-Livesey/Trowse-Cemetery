@@ -77,7 +77,7 @@
                         <div class="ui eight wide doubling stackable buttons">
                             <a href="javascript:showChangeEmailModal();" class="ui button nameButton">Change email</a>
                             <a href="javascript:showChangePasswordModal();" class="ui primary button nameButton">Change password</a>
-                            <a class="ui negative button nameButton">Delete account</a>
+                            <a href="javascript:showDeleteAccountModal();" class="ui negative button nameButton">Delete account</a>
                         </div>
                     </div>
                 </div>
@@ -146,6 +146,32 @@
                 <div class="actions">
                     <a href="javascript:hideChangePasswordModal();" class="ui button">Cancel</a>
                     <a class="ui positive approve button">Save</a>
+                </div>
+            </div>
+            <div class="ui tiny modal" id="deleteAccountModal">
+                <div class="header">Delete account</div>
+                <div class="content">
+                    <form class="ui form">
+                        <div class="field">
+                            <label>
+                                Email address
+                                <i class="circular help icon link" data-content="We'll need your current email address to verify you."></i>
+                            </label>
+                            <input name="deleteAccountCurrentEmail" type="email" placeholder="Example: email@example.com">
+                        </div>
+                        <div class="field">
+                            <label>
+                                Password
+                                <i class="circular help icon link" data-content="We'll also need your current password to verify you."></i>
+                            </label>
+                            <input name="deleteAccountCurrentPassword" type="password">
+                        </div>
+                        <div class="ui error message"></div>
+                    </form>
+                </div>
+                <div class="actions">
+                    <a href="javascript:hideDeleteAccountModal();" class="ui button">Cancel</a>
+                    <a class="ui negative button">Delete</a>
                 </div>
             </div>
         </main>

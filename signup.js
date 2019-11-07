@@ -36,7 +36,20 @@ $(function() {
     $(".ui.form").form({
         keyboardShorcuts: false,
 
+        onSuccess: function() {return false;},
+
         fields: {
+            name: {
+                identifier: "name",
+
+                rules: [
+                    {
+                        type: "empty",
+                        prompt: "Please enter your full name."
+                    }
+                ]
+            },
+
             email: {
                 identifier: "email",
 
@@ -66,12 +79,6 @@ $(function() {
                     }
                 ]
             }
-        }
-    });
-
-    $("[name='password']").keypress(function(event) {
-        if (event.keyCode == 13) { // Enter
-            signIn();
         }
     });
 });

@@ -35,7 +35,7 @@ function hideAddPlotModal() {
     setTimeout(function() {
         $("#addPlotModal input").val("");
         
-        $("#addPlotModal .ui.positive.button").removeClass("loading");
+        $("#addPlotModal .ui.approve.button").removeClass("loading");
     }, 500);
 
     $("#addPlotModal").modal("hide");
@@ -43,7 +43,7 @@ function hideAddPlotModal() {
 
 function addPlot() {
     if ($("#addPlotModal .ui.form").form("validate form")) {
-        $("#addPlotModal .ui.positive.button").addClass("loading");
+        $("#addPlotModal .ui.approve.button").addClass("loading");
 
         firebase.database().ref("data/" + $("#addPlotModal [name='plotID']").val() + "/points")
             .set($("#addPlotModal [name='plotPoints']").val())
