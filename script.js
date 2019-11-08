@@ -228,6 +228,23 @@ $(function() {
                     tableRow = "<tr class='active'>";
                 }
 
+                if (getURLParameter("search") != null && (
+                    plot.toLowerCase().includes(getURLParameter("search").toLowerCase()) ||
+                    (mapData[plot]["occupantName"] || "").toLowerCase().includes(getURLParameter("search").toLowerCase()) ||
+                    (new Date(mapData[plot]["occupantDeathDate"]).toLocaleDateString("en-GB", {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }) || "").toLowerCase().includes(getURLParameter("search").toLowerCase()) ||
+                    (mapData[plot]["occupantNotes"] || "").toLowerCase().includes(getURLParameter("search").toLowerCase()) ||
+                    (getURLParameter("search").toLowerCase().includes("reserved") && mapData[plot]["usage"] == "reserved") ||
+                    (getURLParameter("search").toLowerCase().includes("occupied") && mapData[plot]["usage"] == "occupied") ||
+                    (getURLParameter("search").toLowerCase().includes("unoccupied") && mapData[plot]["usage"] == "unoccupied")
+                )) {
+                    tableRow = "<tr class='active'>";
+                }
+
                 if (mapData[plot]["usage"] == "reserved") {
                     reservedButton = "<button class='ui icon blue button'>";
                     reservedButtonFunction = "reservedButton(this, false);";
@@ -344,7 +361,13 @@ $(function() {
             $(".dataEditable").hide();
             $(".dataUneditable").show();
         }
-    })
+    });
+
+    $("#search").keypress(function(event) {
+        if (event.keyCode == 13) { // Enter key
+            window.location.href = "data.html?search=" + $("#search").val();            
+        }
+    });
 
     $("[data-content], [data-html]").popup();
 
