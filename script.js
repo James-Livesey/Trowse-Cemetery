@@ -238,6 +238,7 @@ $(function() {
                         year: "numeric"
                     }) || "").toLowerCase().includes(getURLParameter("search").toLowerCase()) ||
                     (mapData[plot]["occupantNotes"] || "").toLowerCase().includes(getURLParameter("search").toLowerCase()) ||
+                    (mapData[plot]["points"] || "").toLowerCase().includes(getURLParameter("search").toLowerCase()) ||
                     (getURLParameter("search").toLowerCase().includes("reserved") && mapData[plot]["usage"] == "reserved") ||
                     (getURLParameter("search").toLowerCase().includes("occupied") && mapData[plot]["usage"] == "occupied") ||
                     (getURLParameter("search").toLowerCase().includes("unoccupied") && mapData[plot]["usage"] == "unoccupied")
