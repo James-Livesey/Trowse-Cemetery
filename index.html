@@ -49,6 +49,20 @@
             <div class="ui active inverted dimmer" id="loadingScreen">
                 <div class="ui text loader">Loading data...</div>
             </div>
+            <svg viewbox="0 0 1500 100" id="mapKey">
+                <a href="data.html?search=unoccupied">
+                    <polygon fill="#f0f0f0" stroke="#d1d1d1" points="110,10 190,10 190,90 110,90"></polygon>
+                    <text fill="black" font-size="50px" x="220" y="65">Unoccupied</text>
+                </a>
+                <a href="data.html?search=occupied">
+                    <polygon fill="#ffdc96" stroke="#ffc247" points="610,10 690,10 690,90 610,90"></polygon>
+                    <text fill="black" font-size="50px" x="720" y="65">Occupied</text>
+                </a>
+                <a href="data.html?search=reserved">
+                    <polygon fill="#96c5ff" stroke="#59a3ff" points="1110,10 1190,10 1190,90 1110,90"></polygon>
+                    <text fill="black" font-size="50px" x="1220" y="65">Reserved</text>
+                </a>
+            </svg>
             <svg viewbox="0 0 1000 1000" id="map"></svg>
         </main>
     </body>

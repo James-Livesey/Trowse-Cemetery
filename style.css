@@ -52,7 +52,7 @@ main {
 
 #map {
     width: 100vw;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 140px);
     object-fit: contain;
 }
 
@@ -72,6 +72,20 @@ main {
     stroke: #ff5252;
     stroke-width: 5px;
     stroke-linejoin: round;
+}
+
+#mapKey {
+    width: 100vw;
+    height: 30px;
+    object-fit: contain;
+}
+
+#mapKey a:hover {
+    opacity: 0.8;
+}
+
+#mapKey polygon {
+    stroke-width: 4px;
 }
 
 #database td input {

@@ -240,8 +240,12 @@ $(function() {
                     (mapData[plot]["occupantNotes"] || "").toLowerCase().includes(getURLParameter("search").toLowerCase()) ||
                     (mapData[plot]["points"] || "").toLowerCase().includes(getURLParameter("search").toLowerCase()) ||
                     (getURLParameter("search").toLowerCase().includes("reserved") && mapData[plot]["usage"] == "reserved") ||
-                    (getURLParameter("search").toLowerCase().includes("occupied") && mapData[plot]["usage"] == "occupied") ||
-                    (getURLParameter("search").toLowerCase().includes("unoccupied") && mapData[plot]["usage"] == "unoccupied")
+                    (getURLParameter("search").toLowerCase().includes("occupied") && (
+                        !getURLParameter("search").toLowerCase().includes("unoccupied")||
+                        getURLParameter("search").toLowerCase().includes(" occupied") ||
+                        getURLParameter("search").toLowerCase().includes("occupied ")
+                    ) && mapData[plot]["usage"] == "occupied") ||
+                    (getURLParameter("search").toLowerCase().includes("unoccupied") && mapData[plot]["usage"] == null)
                 )) {
                     tableRow = "<tr class='active'>";
                 }
@@ -366,7 +370,7 @@ $(function() {
 
     $("#search").keypress(function(event) {
         if (event.keyCode == 13) { // Enter key
-            window.location.href = "data.html?search=" + $("#search").val();            
+            window.location.href = "data.html?search=" + encodeURIComponent($("#search").val());            
         }
     });
 
