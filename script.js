@@ -370,7 +370,7 @@ $(function() {
 
     $("#search").keypress(function(event) {
         if (event.keyCode == 13) { // Enter key
-            window.location.href = "data.html?search=" + encodeURIComponent($("#search").val());            
+            window.location.href = "data.html?search=" + encodeURIComponent($("#search").val());
         }
     });
 
