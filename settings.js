@@ -1,3 +1,5 @@
+var dataEditable = false;
+
 function saveName() {}
 
 function showChangeEmailModal() {
@@ -23,7 +25,17 @@ function changeEmail() {
         firebase.auth().signInWithEmailAndPassword($("#changeEmailModal [name='changeEmailCurrentEmail']").val(), $("#changeEmailModal [name='changeEmailCurrentPassword']").val())
             .then(function(credentials) {
                 credentials.user.updateEmail($("#changeEmailModal [name='changeEmailNewEmail']").val()).then(function() {
-                    hideChangeEmailModal();
+                    firebase.database().ref("users/" + credentials.user.uid + "/email").set($("#changeEmailModal [name='changeEmailNewEmail']").val()).then(function() {
+                        hideChangeEmailModal();
+                    }).catch(function(error) {
+                        $("#changeEmailModal .ui.approve.button").removeClass("loading");
+                
+                        $("#changeEmailModal .ui.error.message").html("").append(
+                            $("<ul class='list'>").append(
+                                $("<li>").text(error.message)
+                            )
+                        ).show();
+                    });
                 }).catch(function(error) {
                     $("#changeEmailModal .ui.approve.button").removeClass("loading");
             
@@ -114,10 +126,20 @@ function deleteAccount() {
 
         firebase.auth().signInWithEmailAndPassword($("#deleteAccountModal [name='deleteAccountCurrentEmail']").val(), $("#deleteAccountModal [name='deleteAccountCurrentPassword']").val())
             .then(function(credentials) {
-                credentials.user.delete().then(function() {
-                    hideDeleteAccountModal();
-
-                    window.location.href = "index.html";
+                firebase.database().ref("users/" + credentials.user.uid).set({}).then(function() {
+                    credentials.user.delete().then(function() {
+                        hideDeleteAccountModal();
+    
+                        window.location.href = "index.html";
+                    }).catch(function(error) {
+                        $("#deleteAccountModal .ui.negative.button").removeClass("loading");
+                
+                        $("#deleteAccountModal .ui.error.message").html("").append(
+                            $("<ul class='list'>").append(
+                                $("<li>").text(error.message)
+                            )
+                        ).show();
+                    });
                 }).catch(function(error) {
                     $("#deleteAccountModal .ui.negative.button").removeClass("loading");
             
@@ -157,6 +179,38 @@ $(function() {
                 $(".name").val(snapshot.val());
             });
         }
+    });
+
+    firebase.database().ref("whitelistedUsers").on("value", function(snapshot) {
+        var whitelistedUsers = snapshot.val();
+
+        firebase.database().ref("users").on("value", function(childSnapshot) {
+            var users = childSnapshot.val();
+            
+            setTimeout(function() {
+                $("#permissions tbody").html("");
+
+                for (var user in users) {
+                    (function(user) {
+                        $("#permissions tbody").append(
+                            $("<tr>").append([
+                                $("<td>").text(users[user].name || "(Unknown name)"),
+                                $("<td>").text(users[user].email || "(Unknown email address)"),
+                                $("<td>").append(
+                                    $("<div class='ui toggle checkbox'>").change(function() {
+                                        firebase.database().ref("whitelistedUsers/" + user).set($(this).checkbox("is checked"));
+                                    }).append(
+                                        $("<input type='checkbox'>").prop("checked", whitelistedUsers[user] == true)
+                                    )
+                                )
+                            ])
+                        );
+    
+                        $(".ui.toggle.checkbox").checkbox();
+                    })(user);
+                } 
+            }, 500);
+        });
     });
 
     $("[data-content], [data-html]").popup();

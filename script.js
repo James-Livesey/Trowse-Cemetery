@@ -147,7 +147,7 @@ $(function() {
     
             firebase.database().ref("whitelistedUsers").on("value", function(snapshot) {
                 if (snapshot.val() != null) {
-                    dataEditable = user.uid in snapshot.val();
+                    dataEditable = snapshot.val()[user.uid] == true;
                 } else {
                     dataEditable = false;
                 }

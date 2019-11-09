@@ -81,99 +81,118 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="ui tiny modal" id="changeEmailModal">
-                <div class="header">Change email address</div>
-                <div class="content">
-                    <form class="ui form">
-                        <div class="field">
-                            <label>
-                                Current email address
-                                <i class="circular help icon link" data-content="We'll need your current email address to verify you."></i>
-                            </label>
-                            <input name="changeEmailCurrentEmail" type="email" placeholder="Example: email@example.com">
+                <h2>User account permissions</h2>
+                <div class="ui form">
+                    <div class="eight wide field">
+                        <p>Whitelist certain users to allow them to add, modify and delete data in the plot database. You can revoke permissions at any time.</p>
+                        <div class="ui info message dataUneditable">
+                            <p>To edit the account permissions list, please sign in with a whitelisted account.</p>
                         </div>
-                        <div class="field">
-                            <label>
-                                Current password
-                                <i class="circular help icon link" data-content="We'll also need your current password to verify you."></i>
-                            </label>
-                            <input name="changeEmailCurrentPassword" type="password">
-                        </div>
-                        <div class="field">
-                            <label>
-                                New email address
-                                <i class="circular help icon link" data-content="This is the new email address that you would like to use to sign into your account."></i>
-                            </label>
-                            <input name="changeEmailNewEmail" type="email" placeholder="Example: email@example.com">
-                        </div>
-                        <div class="ui error message"></div>
-                    </form>
-                </div>
-                <div class="actions">
-                    <a href="javascript:hideChangeEmailModal();" class="ui button">Cancel</a>
-                    <a class="ui positive approve button">Save</a>
-                </div>
-            </div>
-            <div class="ui tiny modal" id="changePasswordModal">
-                <div class="header">Change password</div>
-                <div class="content">
-                    <form class="ui form">
-                        <div class="field">
-                            <label>
-                                Current email address
-                                <i class="circular help icon link" data-content="We'll need your current email address to verify you."></i>
-                            </label>
-                            <input name="changePasswordCurrentEmail" type="email" placeholder="Example: email@example.com">
-                        </div>
-                        <div class="field">
-                            <label>
-                                Current password
-                                <i class="circular help icon link" data-content="We'll also need your current password to verify you."></i>
-                            </label>
-                            <input name="changePasswordCurrentPassword" type="password">
-                        </div>
-                        <div class="field">
-                            <label>
-                                New password
-                                <i class="circular help icon link" data-content="This is the new password that you would like to use to sign into your account."></i>
-                            </label>
-                            <input name="changePasswordNewPassword" type="password">
-                        </div>
-                        <div class="ui error message"></div>
-                    </form>
-                </div>
-                <div class="actions">
-                    <a href="javascript:hideChangePasswordModal();" class="ui button">Cancel</a>
-                    <a class="ui positive approve button">Save</a>
-                </div>
-            </div>
-            <div class="ui tiny modal" id="deleteAccountModal">
-                <div class="header">Delete account</div>
-                <div class="content">
-                    <form class="ui form">
-                        <div class="field">
-                            <label>
-                                Email address
-                                <i class="circular help icon link" data-content="We'll need your current email address to verify you."></i>
-                            </label>
-                            <input name="deleteAccountCurrentEmail" type="email" placeholder="Example: email@example.com">
-                        </div>
-                        <div class="field">
-                            <label>
-                                Password
-                                <i class="circular help icon link" data-content="We'll also need your current password to verify you."></i>
-                            </label>
-                            <input name="deleteAccountCurrentPassword" type="password">
-                        </div>
-                        <div class="ui error message"></div>
-                    </form>
-                </div>
-                <div class="actions">
-                    <a href="javascript:hideDeleteAccountModal();" class="ui button">Cancel</a>
-                    <a class="ui negative button">Delete</a>
+                        <table class="ui compact celled unstackable table" id="permissions">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email address</th>
+                                    <th width="80">Can edit?</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </main>
+        <div class="ui tiny modal" id="changeEmailModal">
+            <div class="header">Change email address</div>
+            <div class="content">
+                <form class="ui form">
+                    <div class="field">
+                        <label>
+                            Current email address
+                            <i class="circular help icon link" data-content="We'll need your current email address to verify you."></i>
+                        </label>
+                        <input name="changeEmailCurrentEmail" type="email" placeholder="Example: email@example.com">
+                    </div>
+                    <div class="field">
+                        <label>
+                            Current password
+                            <i class="circular help icon link" data-content="We'll also need your current password to verify you."></i>
+                        </label>
+                        <input name="changeEmailCurrentPassword" type="password">
+                    </div>
+                    <div class="field">
+                        <label>
+                            New email address
+                            <i class="circular help icon link" data-content="This is the new email address that you would like to use to sign into your account."></i>
+                        </label>
+                        <input name="changeEmailNewEmail" type="email" placeholder="Example: email@example.com">
+                    </div>
+                    <div class="ui error message"></div>
+                </form>
+            </div>
+            <div class="actions">
+                <a href="javascript:hideChangeEmailModal();" class="ui button">Cancel</a>
+                <a class="ui positive approve button">Save</a>
+            </div>
+        </div>
+        <div class="ui tiny modal" id="changePasswordModal">
+            <div class="header">Change password</div>
+            <div class="content">
+                <form class="ui form">
+                    <div class="field">
+                        <label>
+                            Current email address
+                            <i class="circular help icon link" data-content="We'll need your current email address to verify you."></i>
+                        </label>
+                        <input name="changePasswordCurrentEmail" type="email" placeholder="Example: email@example.com">
+                    </div>
+                    <div class="field">
+                        <label>
+                            Current password
+                            <i class="circular help icon link" data-content="We'll also need your current password to verify you."></i>
+                        </label>
+                        <input name="changePasswordCurrentPassword" type="password">
+                    </div>
+                    <div class="field">
+                        <label>
+                            New password
+                            <i class="circular help icon link" data-content="This is the new password that you would like to use to sign into your account."></i>
+                        </label>
+                        <input name="changePasswordNewPassword" type="password">
+                    </div>
+                    <div class="ui error message"></div>
+                </form>
+            </div>
+            <div class="actions">
+                <a href="javascript:hideChangePasswordModal();" class="ui button">Cancel</a>
+                <a class="ui positive approve button">Save</a>
+            </div>
+        </div>
+        <div class="ui tiny modal" id="deleteAccountModal">
+            <div class="header">Delete account</div>
+            <div class="content">
+                <form class="ui form">
+                    <div class="field">
+                        <label>
+                            Email address
+                            <i class="circular help icon link" data-content="We'll need your current email address to verify you."></i>
+                        </label>
+                        <input name="deleteAccountCurrentEmail" type="email" placeholder="Example: email@example.com">
+                    </div>
+                    <div class="field">
+                        <label>
+                            Password
+                            <i class="circular help icon link" data-content="We'll also need your current password to verify you."></i>
+                        </label>
+                        <input name="deleteAccountCurrentPassword" type="password">
+                    </div>
+                    <div class="ui error message"></div>
+                </form>
+            </div>
+            <div class="actions">
+                <a href="javascript:hideDeleteAccountModal();" class="ui button">Cancel</a>
+                <a class="ui negative button">Delete</a>
+            </div>
+        </div>
     </body>
 </html>

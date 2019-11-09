@@ -28,7 +28,9 @@ $(function() {
             }
         } else {
             firebase.database().ref("users/" + user.uid + "/name").set($("[name='name']").val()).then(function() {
-                window.location.href = "index.html";
+                firebase.database().ref("users/" + user.uid + "/email").set($("[name='email']").val()).then(function() {
+                    window.location.href = "index.html";                    
+                });
             });
         }
     });
