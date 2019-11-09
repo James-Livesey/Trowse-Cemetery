@@ -80,6 +80,10 @@ main {
     object-fit: contain;
 }
 
+#mapKey a {
+    transition: 0.5s;
+}
+
 #mapKey a:hover {
     opacity: 0.8;
 }
