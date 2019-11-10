@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Trowse Cemetery</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, minimal-ui">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css">
+        <link rel="stylesheet" href="lib/semantic.min.css">
+        <link rel="stylesheet" href="lib/calendar.min.css">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
+        <script>
+            var firebaseConfig = {
+                apiKey: "AIzaSyB6xYV93RLmxOVSOznJJWyvrAKmBXFI-Ec",
+                authDomain: "trowse-cemetery.firebaseapp.com",
+                databaseURL: "https://trowse-cemetery.firebaseio.com",
+                projectId: "trowse-cemetery",
+                storageBucket: "trowse-cemetery.appspot.com",
+                messagingSenderId: "748853109441",
+                appId: "1:748853109441:web:80578725276c01b1816a40",
+                measurementId: "G-JS7E4V6046"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+        </script>
+        <script src="lib/jquery.min.js"></script>
+        <script src="lib/semantic.min.js"></script>
+        <script src="lib/calendar.min.js"></script>
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <nav class="ui tabular menu">
+            <div class="header item desktop">Trowse Cemetery</div>
+            <a href="index.html" class="item">Map</a>
+            <a href="data.html" class="item">Data</a>
+            <div class="right menu">
+                <div class="item desktop">
+                    <div class="ui icon input">
+                        <input type="text" placeholder="Search for anything..." id="search">
+                        <i class="search link icon"></i>
+                    </div>
+                </div>
+                <div class="item noMenuPad">
+                    <a href="help.html" class="ui icon button">
+                        <i class="help link icon"></i>
+                    </a>
+                </div>
+                <div class="item" id="accountArea">
+                    <a href="signin.html" class="ui primary button">Sign in</a>
+                </div>
+            </div>
+        </nav>
+        <main class="ui container">
+            <h1>Help</h1>
+            <p>
+                Welcome to Trowse Cemetery's plot databasing and mapping
+                system! This system provides you with an easy way to manage
+                plots and display them on a map. Seamlessly add and remove
+                plots, manage occupants, and easily find anything using the
+                search function.
+            </p>
+            <h2>Getting started</h2>
+            <p>
+                Getting started is easy on this system ─ if you haven't
+                already, press the <strong>Sign in</strong> button in the
+                top-right hand corner. If you've got an account with this
+                system, simply enter your email address and password. If you
+                don't, press <strong>Sign up</strong>, then enter your full
+                name, email address and password.
+            </p>
+            <p>
+                By default, editing for your account will be disabled until a
+                trusted user enables editing on your account for you. You can
+                check if you are allowed to edit the database by going to the
+                <strong>Data</strong> tab and seeing if you can edit the
+                database without any errors. If you can't, you'll need to
+                contact a user who already has edit permissions to add you to
+                the whitelist of users who are allowed to edit.
+            </p>
+            <h2>Allowing someone else to edit</h2>
+            <p>
+                If you are a user who is allowed to edit the database, sign in
+                (if you haven't done already), then press on your name in the
+                top-right hand corner, followed by the
+                <strong>Settings</strong> button. This will show the settings
+                for your account.
+            </p>
+            <p>
+                To allow the user to edit, find their name and email address
+                within the <strong>User account permissions</strong> section of
+                Settings. When you're absolutely certain that you can trust the
+                user with editing permissions, toggle the switch to the on
+                position by their name in the <strong>Can edit?</strong> field.
+            </p>
+            <h3>Revoking permissions</h3>
+            <p>
+                If you feel that a user cannot be trusted, you can disable
+                their editing permission by toggling the same switch to the off
+                position. They will no longer be able to edit the plot
+                database, or even change permissions of other users.
+            </p>
+            <h2>Managing your account</h2>
+            <p>
+                Managing your account on this system is vital to keeping it
+                secure and updated. To manage your account, press on your name
+                in the top-right hand corner, followed by the
+                <strong>Settings</strong> button. This will show the settings
+                for your account.
+            </p>
+            <p>
+                To change your name shown on this account, enter it into the
+                <strong>Full name</strong> input, then press the
+                <strong>Save</strong> button.
+            </p>
+            <p>
+                To change the email address that you use to sign in with, press
+                the <strong>Change email</strong> button, then enter your
+                current email address and password (for security reasons), then
+                enter your new email address and press the
+                <strong>Save</strong> button.
+            </p>
+            <p>
+                To change the password that you use to sign in with, press the
+                <strong>Change password</strong> button, then enter your
+                current email address and password (for security reaons), then
+                enter your new password and press the <strong>Save</strong>
+                button.
+            </p>
+        </main>
+    </body>
+</html>

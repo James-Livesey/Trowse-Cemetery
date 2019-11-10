@@ -4,6 +4,11 @@ main {
     overflow-x: auto;
 }
 
+.noMenuPad {
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+
 .desktop {
     display: unset!important;
 }
