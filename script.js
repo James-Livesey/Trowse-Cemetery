@@ -5,6 +5,7 @@ var userID = null;
 var userFullName = null;
 
 var dataUnsaved = false;
+var dataUnsavedRange = [];
 var dataEditable = false;
 
 var modalPlotTarget = null;
@@ -115,6 +116,7 @@ function reservedButton(subject, state) {
         $(subject).removeClass("blue");
     }
 
+    dataUnsavedRange.push($(subject).parent().parent().find("td:first").text());
     dataUnsaved = true;
 }
 
@@ -185,7 +187,7 @@ $(function() {
                 svgPolygon.setAttribute("fill", mapData[plot]["usage"] == "occupied" ? "#ffdc96" : (mapData[plot]["usage"] == "reserved" ? "#96c5ff" : "#f0f0f0"));
                 svgPolygon.setAttribute("stroke", mapData[plot]["usage"] == "occupied" ? "#ffc247" : (mapData[plot]["usage"] == "reserved" ? "#59a3ff" : "#d1d1d1"));
                 svgText.setAttribute("fill", "black");
-                svgText.setAttribute("font-size", "30px");
+                svgText.setAttribute("font-size", "20px");
                 svgText.textContent = plot;
                 svgLink.setAttribute("href", "data.html?selectedPlot=" + encodeURIComponent(plot));
                 svgLink.appendChild(svgPolygon);
@@ -204,8 +206,8 @@ $(function() {
 
                 var points = mapData[plot]["points"].split(" ");
 
-                svgText.setAttribute("x", Number(points[0].split(",")[0]) + 10);
-                svgText.setAttribute("y", Number(points[0].split(",")[1]) + 30);
+                svgText.setAttribute("x", Number(points[0].split(",")[0]) + 2);
+                svgText.setAttribute("y", Number(points[0].split(",")[1]) + 20);
 
                 for (var point of points) {
                     var svgPoint = $("#map")[0].createSVGPoint();
@@ -220,12 +222,12 @@ $(function() {
             $("#database tbody").html("");
             
             for (var plot in mapData) {
-                var tableRow = "<tr>";
+                var tableRow = "<tr data-plot='" + plot + "'>";
                 var reservedButton = "<button class='ui icon button'>";
                 var reservedButtonFunction = "reservedButton(this, true);";
 
                 if (plot == getURLParameter("selectedPlot")) {
-                    tableRow = "<tr class='active'>";
+                    tableRow = "<tr class='active' data-plot='" + plot + "'>";
                 }
 
                 if (getURLParameter("search") != null && (
@@ -269,17 +271,17 @@ $(function() {
                         ),
                         $("<td>").append(
                             $("<div class='ui input calendar basic calendarPart'>").append(
-                                $("<input onchange='dataUnsaved = true;'>").val(mapData[plot]["occupantDeathDate"])
+                                $("<input onchange='dataUnsaved = true; dataUnsavedRange.push(\"" + plot + "\");'>").val(mapData[plot]["occupantDeathDate"])
                             )
                         ),
                         $("<td>").append(
                             $("<div class='ui input'>").append(
-                                $("<input onchange='dataUnsaved = true;'>").val(mapData[plot]["occupantNotes"] || "")
+                                $("<input onchange='dataUnsaved = true; dataUnsavedRange.push(\"" + plot + "\");'>").val(mapData[plot]["occupantNotes"] || "")
                             )
                         ),
                         $("<td>").append(
                             $("<div class='ui input'>").append(
-                                $("<input onchange='dataUnsaved = true;'>").val(mapData[plot]["points"])
+                                $("<input onchange='dataUnsaved = true; dataUnsavedRange.push(\"" + plot + "\");'>").val(mapData[plot]["points"])
                             )
                         ),
                         $("<td>").append([
@@ -296,13 +298,16 @@ $(function() {
                     ])
                 );
 
-                $(".calendarPart").last().calendar({
-                    type: "date",
-                    startMode: "year",
-                    onChange: function() {
-                        dataUnsaved = true;
-                    }
-                });
+                (function(plot) {
+                    $(".calendarPart").last().calendar({
+                        type: "date",
+                        startMode: "year",
+                        onChange: function() {
+                            dataUnsaved = true;
+                            dataUnsavedRange.push(plot);
+                        }
+                    });
+                })(plot);
 
                 if (mapData[plot]["occupantDeathDate"] != null) {
                     $(".calendarPart").last().calendar("set date", new Date(mapData[plot]["occupantDeathDate"]));
@@ -327,7 +332,13 @@ $(function() {
 
     setInterval(function() {
         if (dataUnsaved && !$(document.activeElement).is("input")) {
-            $("#database > tbody > tr").each(function() {
+            var dataUnsavedRangeConvert = [];
+
+            for (var range in dataUnsavedRange) {
+                dataUnsavedRangeConvert.push($("#database > tbody > tr[data-plot='" + dataUnsavedRange[range] + "']")[0]);
+            }
+
+            $(dataUnsavedRangeConvert).each(function() {
                 var key = $(this).find("> td").eq(0).text();
                 var dataStructure = {
                     occupantName: $(this).find("> td").eq(1).find("input").val(),
@@ -351,6 +362,7 @@ $(function() {
             });
 
             dataUnsaved = false;
+            dataUnsavedRange = [];
         }
     }, 2000);
 
